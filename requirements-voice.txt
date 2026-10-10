@@ -1,0 +1,10 @@
+﻿# Optional: voice pipeline and embeddings. Install after requirements.txt:
+#   pip install -r requirements-voice.txt
+# Needs PortAudio for sounddevice (Linux: apt install portaudio19-dev).
+vosk>=0.3.45
+piper-tts>=1.2.0
+openwakeword>=0.5.1
+sounddevice>=0.4.6
+scipy>=1.12
+webrtcvad>=2.0.10
+sentence-transformers>=2.2.2

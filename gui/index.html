@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEUTRON</title>
+    <link rel="stylesheet" href="styles.css?v=5">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Ambient Background -->
+    <div id="ambient-bg">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
+        <div class="ambient-orb orb-3"></div>
+        <canvas id="particle-canvas"></canvas>
+    </div>
+
+    <div id="app">
+        <!-- Boot Screen -->
+        <div id="boot-screen" class="screen">
+            <div class="boot-content">
+                <div class="boot-logo">
+                    <span class="logo-n">N</span>
+                    <span class="logo-text">EUTRON</span>
+                </div>
+                <div class="boot-subtitle">Local-First Cognitive OS</div>
+                <div class="boot-loader">
+                    <div class="loader-bar"></div>
+                </div>
+                <div class="boot-status">Initializing neural pathways...</div>
+            </div>
+        </div>
+
+        <!-- Main Interface -->
+        <div id="main-screen" class="screen hidden">
+
+            <!-- Webcam Panel (No Fake Emotions) -->
+            <div id="webcam-panel" class="glass-panel">
+                <video id="webcam-feed" autoplay muted playsinline></video>
+                <div id="webcam-overlay">
+                    <div id="face-indicator"></div>
+                </div>
+            </div>
+
+            <!-- Feelings Display -->
+            <div id="feelings-panel" class="glass-panel">
+                <div class="panel-header">💭 How I See You</div>
+                <div id="feelings-content">
+                    <span class="feeling-placeholder">Looking at you...</span>
+                </div>
+            </div>
+
+            <!-- Inner Thoughts Panel (NEW) -->
+            <div id="thinking-panel" class="glass-panel">
+                <div class="panel-header">🧠 What I'm Thinking</div>
+                <div id="thinking-content">
+                    <span class="thinking-placeholder">Ready and aware...</span>
+                </div>
+                <div id="thinking-meta" class="thinking-meta">
+                    <span id="model-used" class="model-badge">—</span>
+                </div>
+            </div>
+
+            <!-- Main Face Container -->
+            <div class="face-container">
+                <!-- Eyes -->
+                <div class="eyes-container">
+                    <div class="eye-unit left">
+                        <div class="eye-glow"></div>
+                        <div class="eye-ring ring-outer"></div>
+                        <div class="eye-ring ring-middle"></div>
+                        <div class="eye-core" id="left-eye">
+                            <div class="iris-container">
+                                <div class="iris" id="left-iris">
+                                    <div class="iris-pattern"></div>
+                                    <div class="iris-inner"></div>
+                                    <div class="pupil" id="left-pupil">
+                                        <div class="pupil-core"></div>
+                                        <div class="pupil-reflection r1"></div>
+                                        <div class="pupil-reflection r2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="eyelid upper" id="left-upper-lid"></div>
+                            <div class="eyelid lower" id="left-lower-lid"></div>
+                        </div>
+                    </div>
+
+                    <div class="eye-unit right">
+                        <div class="eye-glow"></div>
+                        <div class="eye-ring ring-outer"></div>
+                        <div class="eye-ring ring-middle"></div>
+                        <div class="eye-core" id="right-eye">
+                            <div class="iris-container">
+                                <div class="iris" id="right-iris">
+                                    <div class="iris-pattern"></div>
+                                    <div class="iris-inner"></div>
+                                    <div class="pupil" id="right-pupil">
+                                        <div class="pupil-core"></div>
+                                        <div class="pupil-reflection r1"></div>
+                                        <div class="pupil-reflection r2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="eyelid upper" id="right-upper-lid"></div>
+                            <div class="eyelid lower" id="right-lower-lid"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animated SVG Mouth -->
+                <div class="mouth-container">
+                    <svg id="animated-mouth" viewBox="0 0 120 60" class="mouth-svg">
+                        <path id="mouth-outer" d="M10,25 Q60,25 110,25 Q60,45 10,25" fill="none"
+                            stroke="var(--accent-primary)" stroke-width="3" />
+                        <path id="mouth-inner-path" d="M20,28 Q60,28 100,28 Q60,35 20,28" fill="var(--accent-primary)"
+                            opacity="0.3" />
+                        <path id="mouth-teeth" d="M25,28 L95,28" stroke="rgba(255,255,255,0.3)" stroke-width="2"
+                            opacity="0" />
+                    </svg>
+                </div>
+
+                <!-- Real-time Speech Display (what you're saying) -->
+                <div id="speech-input-display" class="speech-input-display hidden">
+                    <div class="speech-icon">🎤</div>
+                    <div id="realtime-text" class="realtime-text">Listening...</div>
+                </div>
+
+                <!-- Comic Speech Bubble (Neutron's response) -->
+                <div id="speech-bubble" class="speech-bubble hidden">
+                    <div class="bubble-content">
+                        <span id="bubble-text"></span>
+                        <span class="bubble-cursor"></span>
+                    </div>
+                    <div class="bubble-tail"></div>
+                    <button id="stop-btn" class="stop-btn" onclick="stopSpeaking()">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="6" width="12" height="12" rx="2" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Thinking Display -->
+                <div id="thinking-panel" class="thinking-panel hidden">
+                    <div class="thinking-header">
+                        <span class="thinking-icon">🧠</span>
+                        <span>Thinking...</span>
+                    </div>
+                    <div id="thinking-content" class="thinking-content"></div>
+                </div>
+            </div>
+
+            <!-- Status Panel -->
+            <div id="status-panel" class="glass-panel">
+                <div class="status-row">
+                    <div class="status-indicator" id="status-dot"></div>
+                    <div class="status-mode" id="status-mode">IDLE</div>
+                </div>
+                <div class="emotion-meters">
+                    <div class="meter" id="meter-valence">
+                        <span class="meter-label">Mood</span>
+                        <div class="meter-bar">
+                            <div class="meter-fill"></div>
+                        </div>
+                    </div>
+                    <div class="meter" id="meter-energy">
+                        <span class="meter-label">Energy</span>
+                        <div class="meter-bar">
+                            <div class="meter-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- RAG Document Count -->
+                <div class="rag-status">
+                    <span>📚</span>
+                    <span id="doc-count">0</span> docs
+                </div>
+            </div>
+
+            <!-- Memory Panel -->
+            <div id="memory-panel" class="glass-panel">
+                <div class="panel-header">
+                    <span>🧠 Memories</span>
+                    <button class="panel-toggle" onclick="toggleMemoryPanel()">▼</button>
+                </div>
+                <div id="memory-content" class="panel-content collapsed">
+                    <div class="memory-item placeholder">No memories yet...</div>
+                </div>
+            </div>
+
+            <!-- Input Bar with File Upload -->
+            <div id="input-bar" class="glass-panel">
+                <!-- File Upload -->
+                <label id="file-upload-btn" class="icon-btn" title="Upload document for RAG">
+                    <input type="file" id="file-input" accept=".txt,.md,.pdf,.json,.py,.js" hidden
+                        onchange="handleFileUpload(event)">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" />
+                        <polyline points="14 2 14 8 20 8" fill="none" stroke="currentColor" stroke-width="2" />
+                        <line x1="12" y1="18" x2="12" y2="12" stroke="currentColor" stroke-width="2" />
+                        <line x1="9" y1="15" x2="15" y2="15" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </label>
+
+                <!-- Mic Button -->
+                <button id="mic-btn" class="icon-btn mic-btn-large" onclick="toggleMic()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                        <path
+                            d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                    </svg>
+                    <div class="mic-level-bar">
+                        <div class="mic-level-fill" id="mic-level-fill"></div>
+                    </div>
+                </button>
+
+                <!-- Text Input -->
+                <input type="text" id="text-input" placeholder="Talk to Neutron..." autocomplete="off">
+
+                <!-- Send Button -->
+                <button id="send-btn" class="icon-btn primary" onclick="sendTextMessage()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Upload Status -->
+            <div id="upload-status" class="upload-status hidden">
+                <span id="upload-text">Uploading...</span>
+            </div>
+        </div>
+
+        <!-- Error Screen -->
+        <div id="error-screen" class="screen hidden">
+            <div class="error-content">
+                <div class="error-icon">⚠️</div>
+                <div class="error-message">Connection Lost</div>
+                <div class="error-retry">Reconnecting...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/boot.js?v=5"></script>
+    <script src="js/particles.js?v=5"></script>
+    <script src="js/webcam.js?v=5"></script>
+    <script src="js/websocket.js?v=5"></script>
+    <script src="js/eyes.js?v=5"></script>
+    <script src="js/mouth.js?v=5"></script>
+    <script src="js/emotions.js?v=5"></script>
+    <script src="js/vision-bridge.js?v=1"></script>
+    <script src="js/nanobanana.js?v=5"></script>
+    <script src="js/main.js?v=5"></script>
+</body>
+
+</html>

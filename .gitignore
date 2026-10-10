@@ -1,0 +1,163 @@
+# NEUTRON .gitignore
+
+# =============================================================================
+# Secrets & Credentials - NEVER COMMIT
+# =============================================================================
+.env
+.env.local
+.env.*.local
+secrets/
+*.pem
+*.key
+*credentials*.json
+
+# =============================================================================
+# Python
+# =============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+.pyenv/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Testing
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# =============================================================================
+# Data & Models - Large files
+# =============================================================================
+data/
+models/
+*.db
+*.sqlite
+*.sqlite3
+chroma/
+
+# Voice models (download via setup script)
+vosk-model-*/
+piper-voices/
+
+# Embeddings cache
+embeddings_cache/
+
+# =============================================================================
+# Logs
+# =============================================================================
+logs/
+*.log
+*.log.*
+
+# =============================================================================
+# IDE & Editors
+# =============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# =============================================================================
+# OS
+# =============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# =============================================================================
+# Node.js (for GUI)
+# =============================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# =============================================================================
+# Build artifacts
+# =============================================================================
+*.manifest
+*.spec
+.cache/
+.temp/
+tmp/
+temp/
+
+# =============================================================================
+# Jupyter
+# =============================================================================
+.ipynb_checkpoints
+*.ipynb
+
+# =============================================================================
+# Audio/Video (never commit raw media)
+# =============================================================================
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.mp4
+*.avi
+*.mkv
+recordings/
+
+# =============================================================================
+# Backup files
+# =============================================================================
+*.bak
+*.backup
+*.old
+*.orig
+
+# portfolio defaults
+.next/
+*.pyc
